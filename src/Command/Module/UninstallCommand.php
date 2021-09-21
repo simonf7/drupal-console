@@ -124,7 +124,7 @@ class UninstallCommand extends ContainerAwareCommand
         $coreExtension = $this->configFactory->getEditable('core.extension');
 
         // Get info about modules available
-        $moduleData = system_rebuild_module_data();
+        $moduleData = \Drupal::service('extension.list.module')->reset()->getList();
         $moduleList = array_combine($module, $module);
 
         if ($composer) {
@@ -175,7 +175,7 @@ class UninstallCommand extends ContainerAwareCommand
                 // to core yet so we need to check if it exists.
                 $profiles = \Drupal::service('profile_handler')->getProfileInheritance();
             } else {
-                $profiles[drupal_get_profile()] = [];
+                $profiles[\Drupal::installProfile()] = [];
             }
 
             $dependencies = [];
