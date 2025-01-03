@@ -146,7 +146,7 @@ class {{ entity_class }}RevisionRevertForm extends ConfirmFormBase {% endblock %
   protected function prepareRevertedRevision({{ entity_class }}Interface $revision, FormStateInterface $form_state) {
     $revision->setNewRevision();
     $revision->isDefaultRevision(TRUE);
-    $revision->setRevisionCreationTime($this->time->getRequestTime());
+    $revision->setRevisionCreationTime(\Drupal::time()->getRequestTime());
 
     return $revision;
   }

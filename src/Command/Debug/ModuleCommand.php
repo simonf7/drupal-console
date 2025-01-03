@@ -131,7 +131,7 @@ class ModuleCommand extends Command
     private function getModules($status, $type, $modules) {
 
         $result = [];
-        $modulesData = $this->extensionList->reset()->getList();
+        $modulesData = \Drupal::service('extension.list.module')->reset()->getList();
 
         if(!$modules) {
             $modules = array_keys($modulesData) ;

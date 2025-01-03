@@ -268,9 +268,6 @@ class DrupalApi
         // Prepare a NULL request.
         $kernel->boot();
         $kernel->preHandle($request);
-        if (method_exists($kernel, 'prepareLegacyRequest')) {
-            $kernel->prepareLegacyRequest($request);
-        }
 
         foreach (Cache::getBins() as $bin) {
             $bin->deleteAll();

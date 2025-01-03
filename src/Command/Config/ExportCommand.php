@@ -85,7 +85,7 @@ class ExportCommand extends Command
         if (!$input->getOption('directory')) {
             $directory = $this->getIo()->ask(
                 $this->trans('commands.config.export.questions.directory'),
-                Settings::get('config_sync_directory')
+                \Drupal\Core\Site\Settings::get('config_sync_directory')
             );
             $input->setOption('directory', $directory);
         }
@@ -102,7 +102,7 @@ class ExportCommand extends Command
         $removeHash = $input->getOption('remove-config-hash');
 
         if (!$directory) {
-            $directory = Settings::get('config_sync_directory') ;
+            $directory = \Drupal\Core\Site\Settings::get('config_sync_directory') ;
         }
         if (!Path::isAbsolute($directory)) {
             $drupal_root = $this->drupalFinder->getDrupalRoot();

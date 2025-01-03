@@ -82,10 +82,33 @@ class DiffCommand extends Command
     /**
      * {@inheritdoc}
      */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        global $config_directories;
+
+        $directory = $input->getArgument('directory');
+        if (!$directory) {
+            $directory = $this->getIo()->choice(
+                $this->trans('commands.config.diff.questions.directories'),
+                $config_directories,
+                \Drupal\Core\Site\Settings::get('config_sync_directory')
+            );
+
+            $input->setArgument('directory', $config_directories[$directory]);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $config_directory = Settings::get('config_sync_directory');
-        $source_storage = new FileStorage($config_directory);
+        global $config_directories;
+        $directory = $input->getArgument('directory') ?: \Drupal\Core\Site\Settings::get('config_sync_directory');
+        if (array_key_exists($directory, $config_directories)) {
+            $directory = $config_directories[$directory];
+        }
+        $source_storage = new FileStorage($directory);
 
         if ($input->getOption('reverse')) {
             $config_comparer = new StorageComparer($source_storage, $this->configStorage, $this->configManager);
